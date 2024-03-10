@@ -24,6 +24,7 @@
 #include <list>
 #include <string>
 #include <math.h>
+#include <cstring>
 
 /*!
   \ingroup checks
@@ -471,6 +472,14 @@ namespace UnitTest {
   \param value object to check. Must have convertible to bool
   \return `true` if successful
 */ 
+
+#if _MSVC_LANG < 201703L
+/// Default tolerance for CLOSE... macros
+extern double default_tolerance;
+#else
+/// Default tolerance for CLOSE... macros
+inline double default_tolerance=0;
+#endif
 
 template <typename Value>
 bool Check (Value const value)
@@ -1228,13 +1237,6 @@ bool CheckFileEqual (const char* ref, const char* actual, std::string& message)
   return ok;
 }
 
-#if _MSVC_LANG < 201703L
-/// Default tolerance for CLOSE... macros
-extern double default_tolerance;
-#else
-/// Default tolerance for CLOSE... macros
-inline double default_tolerance=0;
-#endif
 } //end namespace
 
 /// \cond
